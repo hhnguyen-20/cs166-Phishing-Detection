@@ -1,14 +1,16 @@
-Logistic Regression model to detect phishing emails by Andy Liu.
+Logistic Regression model by Andy Liu.
 
 Model is trained and stored in '.pkl' files.
 
-Original datasets as well as their processed versions are provided in '.csv' files.
+Download datasets from https://figshare.com/articles/dataset/Curated_Dataset_-_Phishing_Email/24899952
+Datasets used:
+CEAS_08.csv (training)
+TREC_07.csv (testing)
 
-If you would like to run scripts yourself:
-
+Note: 
 In case errors with NLTK are encountered, make sure NLTK resources are downloaded.
 Try calling `nltk.download('stopwords')` and `nltk.download('wordnet')`. 
-As a last resort, you can try `nltk.download('all')`, but this can be expensive.
+As a last resort, you can try `nltk.download('all')`, but this may be expensive.
 _______________________________________________________________________________________________________
 Datasets from figshare.com
 
