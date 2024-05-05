@@ -54,7 +54,7 @@ Data = pd.concat([Safe_Email, Phishing_Email], ignore_index = True)
 Data
 
 # split the dataset into a metrix of features X and Dependent Variable y
-X = Data["subject"].values.astype('U')
+X = Data["body"].values.astype('U')
 y = Data["label"].values
 
 # lets splitting Our Data
