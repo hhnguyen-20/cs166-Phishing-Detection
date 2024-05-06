@@ -59,3 +59,6 @@ for i, model in enumerate(models):
     model_filename = f"{model_name}.pkl"
     with open(model_filename, 'wb') as f:
         pickle.dump(model, f)
+        
+with open("vectorizer.pkl", "wb") as f:
+    pickle.dump(convert_feature, f)
