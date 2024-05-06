@@ -8,6 +8,14 @@ import os.path
 import base64
 import email
 import re
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+import pickle
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+nltk.download('all')
 
 def strip_tags(text):
     text = re.sub(r'<[^>]*>', '', text, flags=re.DOTALL)  # Remove HTML tags
@@ -16,6 +24,14 @@ def strip_tags(text):
 
 # Define the SCOPES. If modifying it, delete the token.pickle file.
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
+
+
+# Load the pickled logistic regression model
+with open('/Users/muyilin/cs166-Phishing-Detection/email_scrape/logistic_regression_model.pkl', 'rb') as f:
+    model = pickle.load(f)
+    
+with open('/Users/muyilin/cs166-Phishing-Detection/email_scrape/tfidf_vectorizer.pkl', 'rb') as f:
+    vectorizer = pickle.load(f)
 
 def getEmails():
     # Variable creds will store the user access token.
@@ -33,7 +49,7 @@ def getEmails():
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
+            flow = InstalledAppFlow.from_client_secrets_file('/Users/muyilin/cs166-Phishing-Detection/credentials.json', SCOPES)
             creds = flow.run_local_server(port=0)
 
         # Save the access token in token.pickle file for the next run
@@ -53,9 +69,11 @@ def getEmails():
     # print(messages)
     # messages is a list of dictionaries where each dictionary contains a message id.
     # iterate through all the messages
+    i = 0
     for msg in messages:
 
-
+        if i > 20:
+            break
         # Get the message from its id
         txt = service.users().messages().get(userId='me', id=msg['id']).execute()
 
@@ -90,13 +108,46 @@ def getEmails():
             message_body = '\n'.join(line.strip() for line in message_body.splitlines() if line.strip())
 
             # Printing the subject, sender's email, and message
+            t = preprocess_text(message_body)
             print("Subject: ", subject)
-            print("From: ", sender)
-            print("msg['id']: ", msg['id'])
-            print("Message: ", message_body)
-            print('\n')
-            break
+            # print("From: ", sender)
+            # print("msg['id']: ", msg['id'])
+            # print("Message: ", t)
+            # print('\n')
+            
+            
+            print(type(t))
+            t = vectorizer.transform([t])
+            print("predictions: ", model.predict(t))
+            
+            i+= 1
         except HttpError as error:
             print(f'An error occurred: {error}')
 
+def preprocess_text(text):
+    # Convert text to lowercase
+    text = text.lower()
+
+    # Remove punctuation
+    text = re.sub(r'[^\w\s]', '', text)
+
+    # Tokenization
+    tokens = word_tokenize(text)
+
+    # Remove stop words
+    stop_words = set(stopwords.words('english'))
+    tokens = [word for word in tokens if word not in stop_words]
+
+    # Lemmatization
+    lemmatizer = WordNetLemmatizer()
+    tokens = [lemmatizer.lemmatize(word) for word in tokens]
+
+    # Join tokens back into text
+    text = ' '.join(tokens)
+
+    # Return empty string if text is empty after preprocessing
+    return text if text else ' '
+
+
 getEmails()
+
