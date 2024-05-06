@@ -14,7 +14,7 @@ df.info()
 df.isnull().sum()
 df.duplicated().sum()
 
-df.dropna(inplace=True)
+df.dropna()
 df.isnull().sum()
 
 from sklearn.naive_bayes import ComplementNB, BernoulliNB, MultinomialNB
@@ -28,14 +28,13 @@ model_names = ['ComplementNB', 'BernoulliNB', 'MultinomialNB']
 
 accuracies = []
 
-url_text = df['urls'].astype(str)
-text = df['sender'] + ' ' + df['receiver'] + ' ' + df['date'] + ' ' + ['subject'] + ' ' + ['body'] + ' ' + url_text
+text = df['sender'] + ' ' + ['subject'] + ' ' + ['body']
 convert_feature = TfidfVectorizer()
 
 X = convert_feature.fit_transform(text)
 Y = df['label']
 
-X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.8, random_state=42)
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
 
 for model in models:
   model.fit(X_train, Y_train)
