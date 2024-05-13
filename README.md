@@ -1,3 +1,4 @@
+
 # CS166-Phishing-Detection
 
 ## Project Introduction:
@@ -21,11 +22,23 @@ To get started with our project, follow these simple steps to set up your develo
    ```
 
 3. **Running the Full Stack App:**
-   After setting up the environment, navigate to the 'support_vector_machine' directory and execute the 'app.py' file. Make sure to run all necessary Python files to build and save the model before running the app.
+   After setting up the environment, navigate to the 'support_vector_machine' directory and execute the 'app.py' file. Make sure to run all necessary Python files to train and save the model before running the app.
 
    ```
-   cd support_vector_machine
+   cd Support\ Vector\ Machine
    python app.py
    ```
 
-With these simple steps, you'll be ready to explore our Email Phishing Detection project and harness its capabilities to identify phishing emails with ease. Happy coding!
+### Email Scraping:
+In the 'email_scrape' directory, you'll find a 'test.py' file that implements the Gmail API to obtain emails. These emails can be classified using the trained model to determine whether they are spam or legitimate. Before using this feature, ensure you have trained the necessary models, particularly for logistic regression, which is utilized by the API.
+
+To access the email scraping functionality, navigate to the 'email_scrape' directory:
+   ```
+   cd email_scrape
+   ```
+
+## Additional Sections:
+
+### Datasets:
+In the 'support_vector_machine' directory, you'll find a 'datasets' folder containing the dataset used to train the models. Feel free to explore them if you're interested in understanding the data used for training.
+
