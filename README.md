@@ -32,10 +32,7 @@ To get started with our project, follow these simple steps to set up your develo
 ### Email Scraping:
 In the 'email_scrape' directory, you'll find a 'test.py' file that implements the Gmail API to obtain emails. These emails can be classified using the trained model to determine whether they are spam or legitimate. Before using this feature, ensure you have trained the necessary models, particularly for logistic regression, which is utilized by the API.
 
-To access the email scraping functionality, navigate to the 'email_scrape' directory:
-   ```
-   cd email_scrape
-   ```
+To allow the Gmail API to interact with your email, you need to set up your Google Cloud console. Sign in to Google Cloud console and create a new project. Within your dashboard go to API's and services and enable specifically the Gmail API. Next go to the configure consent screen and create your application with your application name. Next go to credentials and create an OAuth Client ID, select Desktop application, enter Application name, and click the create button. With the client ID created, down it to your computer as credentials.json. Now the code for the test.py file should work!
 
 ## Additional Sections:
 
